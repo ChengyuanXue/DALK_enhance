@@ -1,0 +1,29 @@
+{
+  "ablation_switches": {
+    "hierarchical_kg_framework": false,
+    "multi_strategy_entity_linking": false,
+    "adaptive_umls_selection": false,
+    "kg_guided_reasoning": false,
+    "optimized_multi_hop_reasoning": false,
+    "umls_api_integration": false,
+    "medical_reasoning_rules": false,
+    "enhanced_entity_matching": false,
+    "enhanced_path_finding": false,
+    "enhanced_neighbor_extraction": false,
+    "enhanced_knowledge_reranking": false,
+    "enhanced_final_answer": false,
+    "medical_domain_knowledge": false
+  },
+  "dataset": "medqa",
+  "total_questions": 152,
+  "valid_answers": 122,
+  "invalid_answers": 30,
+  "correct_answers": 87,
+  "accuracy": 0.7131147540983607,
+  "avg_entity_confidence": NaN,
+  "question_type_distribution": {
+    "general": 152
+  },
+  "hierarchical_context_coverage": 0.0,
+  "multi_strategy_usage": 0.0
+}

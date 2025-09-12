@@ -1,0 +1,29 @@
+{
+  "ablation_switches": {
+    "hierarchical_kg_framework": false,
+    "multi_strategy_entity_linking": false,
+    "adaptive_umls_selection": false,
+    "kg_guided_reasoning": false,
+    "optimized_multi_hop_reasoning": false,
+    "umls_api_integration": false,
+    "medical_reasoning_rules": false,
+    "enhanced_entity_matching": false,
+    "enhanced_path_finding": false,
+    "enhanced_neighbor_extraction": false,
+    "enhanced_knowledge_reranking": false,
+    "enhanced_final_answer": false,
+    "medical_domain_knowledge": false
+  },
+  "dataset": "qa4mre",
+  "total_questions": 35,
+  "valid_answers": 34,
+  "invalid_answers": 1,
+  "correct_answers": 27,
+  "accuracy": 0.7941176470588235,
+  "avg_entity_confidence": NaN,
+  "question_type_distribution": {
+    "general": 35
+  },
+  "hierarchical_context_coverage": 0.0,
+  "multi_strategy_usage": 0.0
+}

@@ -1,0 +1,28 @@
+{
+  "optimization_features": {
+    "hierarchical_kg_framework": true,
+    "multi_strategy_entity_linking": true,
+    "adaptive_umls_selection": true,
+    "kg_guided_reasoning": true,
+    "optimized_multi_hop_reasoning": true,
+    "enhanced_final_answer": true,
+    "umls_404_error_handling": true,
+    "entity_linking_bug_fix": true,
+    "memory_management": true,
+    "resource_cleanup": true
+  },
+  "performance_config": {
+    "cleanup_frequency": 15,
+    "max_cache_size": 1500,
+    "keep_cache_size": 800,
+    "max_failed_cuis": 1000
+  },
+  "datasets_processed": [
+    "medqa",
+    "medmcqa",
+    "mmlu",
+    "qa4mre"
+  ],
+  "total_datasets": 4,
+  "processing_timestamp": "2025-07-25T10:31:41.579637"
+}

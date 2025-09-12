@@ -1,0 +1,19 @@
+{
+  "dataset": "medmcqa",
+  "total_questions": 209,
+  "correct_answers": 170,
+  "accuracy": 0.8133971291866029,
+  "avg_entity_confidence": 0.9216360211071365,
+  "question_type_distribution": {
+    "general": 91,
+    "causation": 20,
+    "diagnosis": 20,
+    "treatment": 24,
+    "exception": 81,
+    "symptom": 18,
+    "prevention": 2,
+    "definition": 3
+  },
+  "hierarchical_context_coverage": 1.0,
+  "multi_strategy_usage": 1.0
+}

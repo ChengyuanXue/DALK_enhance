@@ -1,0 +1,30 @@
+{
+  "ablation_config": "myself_settings",
+  "config_details": {
+    "USE_HIERARCHICAL_KG": true,
+    "USE_MULTI_STRATEGY_LINKING": true,
+    "USE_ADAPTIVE_UMLS": true,
+    "USE_UMLS_NORMALIZATION": true,
+    "USE_REASONING_RULES": false,
+    "USE_KG_GUIDED_REASONING": false,
+    "USE_OPTIMIZED_MULTIHOP": true,
+    "USE_ENHANCED_ANSWER_GEN": true
+  },
+  "dataset": "mmlu",
+  "total_questions": 49,
+  "correct_answers": 43,
+  "accuracy": 0.8775510204081632,
+  "avg_entity_confidence": 0.8004474251018491,
+  "question_type_distribution": {
+    "causation": 30,
+    "diagnosis": 19,
+    "prevention": 7,
+    "exception": 38,
+    "treatment": 7,
+    "symptom": 20,
+    "general": 2,
+    "definition": 11
+  },
+  "hierarchical_context_coverage": 1.0,
+  "multi_strategy_usage": 1.0
+}

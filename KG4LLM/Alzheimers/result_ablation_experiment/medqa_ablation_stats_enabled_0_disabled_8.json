@@ -1,0 +1,53 @@
+{
+  "total_samples": 152,
+  "valid_samples": 152,
+  "invalid_samples": 0,
+  "ablation_config": {
+    "major_switches": {
+      "umls_standardization_module": false,
+      "multi_strategy_entity_linking": false,
+      "medical_reasoning_rules": false,
+      "multi_hop_reasoning_optimization": false,
+      "hierarchical_kg_framework": false,
+      "adaptive_knowledge_selection": false,
+      "kg_guided_reasoning": false,
+      "enhanced_evidence_generation": false
+    },
+    "fine_grained_switches": {
+      "umls_normalization": true,
+      "medical_abbreviation_expansion": true,
+      "semantic_variants_expansion": true,
+      "concept_hierarchy_integration": true,
+      "semantic_similarity_matching": true,
+      "context_aware_linking": true,
+      "confidence_estimation_fusion": true,
+      "enhanced_entity_matching": true,
+      "transitivity_reasoning": true,
+      "inverse_relations_reasoning": true,
+      "semantic_implications": true,
+      "hierarchical_reasoning": true,
+      "intelligent_path_selection": true,
+      "medical_relevance_weighting": true,
+      "dynamic_pruning": true,
+      "path_quality_ranking": true,
+      "disease_hierarchy": true,
+      "symptom_hierarchy": true,
+      "treatment_hierarchy": true,
+      "anatomy_hierarchy": true,
+      "question_type_aware_selection": true,
+      "treatment_focused_knowledge": true,
+      "diagnosis_focused_knowledge": true,
+      "causation_focused_knowledge": true,
+      "schema_based_reasoning": true,
+      "optimal_subgraph_generation": true,
+      "llm_kg_integration": true,
+      "enhanced_path_finding": true,
+      "enhanced_neighbor_extraction": true,
+      "knowledge_reranking": true,
+      "evidence_quality_validation": true
+    }
+  },
+  "processing_errors": [],
+  "final_accuracy": 0.625,
+  "valid_sample_rate": 1.0
+}

@@ -44,6 +44,10 @@ from time import sleep
 from dataset_utils import *
 from tqdm import tqdm
 
+# API重试配置
+MAX_RETRIES = 60
+RETRY_WAIT_TIME = 60
+
 dataset2processor = {
     'medmcqa': medmcqaZeroshotsProcessor,
     'medqa':medqaZeroshotsProcessor,
@@ -230,8 +234,21 @@ def prompt_path_finding(path_input):
     chat_prompt_with_values = chat_prompt.format_prompt(Path = path_input,\
                                                         text={})
 
-    response_of_KG_path = chat(chat_prompt_with_values.to_messages()).content
-    return response_of_KG_path
+    # 重试机制
+    for retry in range(MAX_RETRIES):
+        try:
+            response = chat(chat_prompt_with_values.to_messages())
+            if response.content is not None:
+                return response.content
+            else:
+                print(f"API返回None，重试第{retry + 1}次...")
+                sleep(RETRY_WAIT_TIME)
+        except Exception as e:
+            print(f"API调用失败第{retry + 1}次: {e}")
+            sleep(RETRY_WAIT_TIME)
+    
+    print("API重试次数用完，返回空字符串")
+    return ""
 
 def prompt_neighbor(neighbor):
     template = """
@@ -259,9 +276,21 @@ def prompt_neighbor(neighbor):
     chat_prompt_with_values = chat_prompt.format_prompt(neighbor = neighbor,\
                                                         text={})
 
-    response_of_KG_neighbor = chat(chat_prompt_with_values.to_messages()).content
-
-    return response_of_KG_neighbor
+    # 重试机制
+    for retry in range(MAX_RETRIES):
+        try:
+            response = chat(chat_prompt_with_values.to_messages())
+            if response.content is not None:
+                return response.content
+            else:
+                print(f"API返回None，重试第{retry + 1}次...")
+                sleep(RETRY_WAIT_TIME)
+        except Exception as e:
+            print(f"API调用失败第{retry + 1}次: {e}")
+            sleep(RETRY_WAIT_TIME)
+    
+    print("API重试次数用完，返回空字符串")
+    return ""
 
 def self_knowledge_retrieval(graph, question):
     template = """
@@ -291,9 +320,21 @@ def self_knowledge_retrieval(graph, question):
     chat_prompt_with_values = chat_prompt.format_prompt(graph = graph, question=question,\
                                                         text={})
 
-    response_of_KG_neighbor = chat(chat_prompt_with_values.to_messages()).content
-
-    return response_of_KG_neighbor
+    # 添加重试机制
+    for retry in range(MAX_RETRIES):
+        try:
+            response = chat(chat_prompt_with_values.to_messages())
+            if response.content is not None:
+                return response.content
+            else:
+                print(f"API返回None，重试第{retry + 1}次...")
+                sleep(RETRY_WAIT_TIME)
+        except Exception as e:
+            print(f"API调用失败第{retry + 1}次: {e}")
+            sleep(RETRY_WAIT_TIME)
+    
+    print("API重试次数用完，返回空字符串")
+    return ""
 
 
 def self_knowledge_retrieval_reranking(graph, question):
@@ -328,9 +369,21 @@ def self_knowledge_retrieval_reranking(graph, question):
     chat_prompt_with_values = chat_prompt.format_prompt(graph = graph, question=question,\
                                                         text={})
 
-    response_of_KG_neighbor = chat(chat_prompt_with_values.to_messages()).content
-
-    return response_of_KG_neighbor
+    # 重试机制
+    for retry in range(MAX_RETRIES):
+        try:
+            response = chat(chat_prompt_with_values.to_messages())
+            if response.content is not None:
+                return response.content
+            else:
+                print(f"API返回None，重试第{retry + 1}次...")
+                sleep(RETRY_WAIT_TIME)
+        except Exception as e:
+            print(f"API调用失败第{retry + 1}次: {e}")
+            sleep(RETRY_WAIT_TIME)
+    
+    print("API重试次数用完，返回空字符串")
+    return ""
 
 def cosine_similarity_manual(x, y):
     dot_product = np.dot(x, y.T)
@@ -341,17 +394,29 @@ def cosine_similarity_manual(x, y):
 
 def is_unable_to_answer(response):
  
-    analysis = openai.Completion.create(
-    engine="gpt-3.5-turbo-instruct",
-    prompt=response,
-    max_tokens=1,
-    temperature=0.0,
-    n=1,
-    stop=None,
-    presence_penalty=0.0,
-    frequency_penalty=0.0
-)
-    score = analysis.choices[0].text.strip().replace("'", "").replace(".", "")
+#     analysis = openai.Completion.create(
+#     engine="gpt-3.5-turbo-instruct",
+#     prompt=response,
+#     max_tokens=1,
+#     temperature=0.0,
+#     n=1,
+#     stop=None,
+#     presence_penalty=0.0,
+#     frequency_penalty=0.0
+# )
+    analysis = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": response}
+        ],
+        max_tokens=1,
+        temperature=0.0,
+        n=1,
+        stop=None,
+        presence_penalty=0.0,
+        frequency_penalty=0.0
+    )
+    score = analysis.choices[0].message.content.strip().replace("'", "").replace(".", "")
     if not score.isdigit():   
         return True
     threshold = 0.6
@@ -385,14 +450,34 @@ def final_answer(str,response_of_KG_list_path,response_of_KG_neighbor):
         response_of_KG_list_path = ''
     if response_of_KG_neighbor == []:
         response_of_KG_neighbor = ''
+    
+    # 第一次API调用 - 获取CoT思考过程
     messages  = [
                 SystemMessage(content="You are an excellent AI assistant to answering the following question"),
                 HumanMessage(content='Question: '+input_text[0]),
                 AIMessage(content="You have some medical knowledge information in the following:\n\n" +  '###'+ response_of_KG_list_path + '\n\n' + '###' + response_of_KG_neighbor),
                 HumanMessage(content="Answer: Let's think step by step: ")
                                    ]
-    result_CoT = chat(messages)
-    output_CoT = result_CoT.content
+    
+    # 重试机制 - 第一次调用
+    output_CoT = ""
+    for retry in range(MAX_RETRIES):
+        try:
+            result_CoT = chat(messages)
+            if result_CoT.content is not None:
+                output_CoT = result_CoT.content
+                break
+            else:
+                print(f"第一次API调用返回None，重试第{retry + 1}次...")
+                sleep(RETRY_WAIT_TIME)
+        except Exception as e:
+            print(f"第一次API调用失败第{retry + 1}次: {e}")
+            sleep(RETRY_WAIT_TIME)
+    
+    if not output_CoT:
+        print("第一次API重试次数用完，使用空字符串")
+        
+    # 第二次API调用 - 获取最终答案
     messages  = [
                 SystemMessage(content="You are an excellent AI assistant to answering the following question"),
                 HumanMessage(content='Question: '+input_text[0]),
@@ -400,8 +485,25 @@ def final_answer(str,response_of_KG_list_path,response_of_KG_neighbor):
                 AIMessage(content="Answer: Let's think step by step: "+output_CoT),
                 AIMessage(content="The final answer (output the letter option) is:")
                                    ]
-    result = chat(messages)
-    output_all = result.content
+    
+    # 重试机制 - 第二次调用
+    output_all = ""
+    for retry in range(MAX_RETRIES):
+        try:
+            result = chat(messages)
+            if result.content is not None:
+                output_all = result.content
+                break
+            else:
+                print(f"第二次API调用返回None，重试第{retry + 1}次...")
+                sleep(RETRY_WAIT_TIME)
+        except Exception as e:
+            print(f"第二次API调用失败第{retry + 1}次: {e}")
+            sleep(RETRY_WAIT_TIME)
+    
+    if not output_all:
+        print("第二次API重试次数用完，使用空字符串")
+        
     return output_all
 
 def prompt_document(question,instruction):
@@ -441,15 +543,17 @@ def prompt_document(question,instruction):
 
 
 if __name__ == "__main__":
-    YOUR_OPENAI_KEY = ''#replace this to your key
-
-    os.environ['OPENAI_API_KEY']= YOUR_OPENAI_KEY
-    openai.api_key = YOUR_OPENAI_KEY
+    # 配置第三方API
+    openai.api_key = "sk-P4hNAfoKF4JLckjCuE99XbaN4bZIORZDPllgpwh6PnYWv4cj"
+    openai.api_base = "https://aiyjg.lol/v1"  # 设置base_url指向第三方API
+    
+    # 设置环境变量
+    os.environ['OPENAI_API_KEY'] = openai.api_key
 
     # 1. build neo4j knowledge graph datasets
-    uri = ""#replace this to your neo4j uri
-    username = ""#replace this to your neo4j username
-    password = ""#replace this to your neo4j password
+    uri = "bolt://localhost:7688"          # 你配置的Neo4j地址
+    username = "neo4j"                     # Neo4j默认用户名
+    password = "Cyber@511"              # 你设置的Neo4j密码
 
     driver = GraphDatabase.driver(uri, auth=(username, password))
     session = driver.session()
@@ -479,7 +583,7 @@ if __name__ == "__main__":
 
 # # 2. OpenAI API based keyword extraction and match entities
 
-    OPENAI_API_KEY = YOUR_OPENAI_KEY
+    OPENAI_API_KEY = openai.api_key
     chat = ChatOpenAI(openai_api_key=OPENAI_API_KEY, model='gpt-3.5-turbo', temperature=0.7)
 
     re1 = r'The extracted entities are (.*?)<END>'

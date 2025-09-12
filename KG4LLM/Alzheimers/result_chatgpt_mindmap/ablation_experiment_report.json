@@ -1,0 +1,40 @@
+{
+  "current_ablation_config": "ablation_kg_guided",
+  "ablation_configuration": {
+    "USE_HIERARCHICAL_KG": true,
+    "USE_MULTI_STRATEGY_LINKING": true,
+    "USE_ADAPTIVE_UMLS": true,
+    "USE_UMLS_NORMALIZATION": true,
+    "USE_REASONING_RULES": true,
+    "USE_KG_GUIDED_REASONING": false,
+    "USE_OPTIMIZED_MULTIHOP": true,
+    "USE_ENHANCED_ANSWER_GEN": true
+  },
+  "available_configs": [
+    "baseline",
+    "full_model",
+    "ablation_hierarchical_kg",
+    "ablation_multi_strategy",
+    "ablation_adaptive_umls",
+    "ablation_umls_normalization",
+    "ablation_reasoning_rules",
+    "ablation_kg_guided",
+    "ablation_multihop",
+    "ablation_enhanced_answer",
+    "myself_settings"
+  ],
+  "performance_config": {
+    "cleanup_frequency": 15,
+    "max_cache_size": 1500,
+    "keep_cache_size": 800,
+    "max_failed_cuis": 1000
+  },
+  "datasets_processed": [
+    "medqa",
+    "medmcqa",
+    "mmlu",
+    "qa4mre"
+  ],
+  "total_datasets": 4,
+  "processing_timestamp": "2025-09-12T06:01:06.968005"
+}

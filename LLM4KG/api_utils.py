@@ -1,57 +1,49 @@
 import time
-import openai
-import google.generativeai as palm
-from google.generativeai.types import safety_types
-from google.api_core import retry
-palm.configure(api_key='')#replace this to your key
-api_key = ''#replace this to your key
-openai.api_key=api_key
+from openai import OpenAI
 
+# 配置第三方API客户端
+client = OpenAI(
+    api_key="sk-P4hNAfoKF4JLckjCuE99XbaN4bZIORZDPllgpwh6PnYWv4cj",
+    base_url="https://aiyjg.lol/v1"
+)
 
-@retry.Retry()
 def request_api_palm(messages):
-    model = 'models/text-bison-001'
-    completion = palm.generate_text(
-        model=model,
-        prompt=messages,
-            safety_settings=[
-            {
-                "category": safety_types.HarmCategory.HARM_CATEGORY_DEROGATORY,
-                "threshold": safety_types.HarmBlockThreshold.BLOCK_NONE,
-            },
-            {
-                "category": safety_types.HarmCategory.HARM_CATEGORY_VIOLENCE,
-                "threshold": safety_types.HarmBlockThreshold.BLOCK_NONE,
-            },
-
-            {
-                "category": safety_types.HarmCategory.HARM_CATEGORY_TOXICITY,
-                "threshold": safety_types.HarmBlockThreshold.BLOCK_NONE,
-            },
-            {
-                "category": safety_types.HarmCategory.HARM_CATEGORY_MEDICAL,
-                "threshold": safety_types.HarmBlockThreshold.BLOCK_NONE,
-            },
-        ]
-    )
-    if len(completion.candidates) < 1:
-        print(completion)
-    ret = completion.candidates[0]['output']
-    return ret
+    """
+    原来调用PaLM，现在改为调用第三方OpenAI兼容接口
+    """
+    try:
+        completion = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are an AI assistant to answer questions about biomedicine."},
+                {"role": "user", "content": messages}
+            ],
+            max_tokens=1000,
+            temperature=0.7
+        )
+        ret = completion.choices[0].message.content.strip()
+        return ret
+    except Exception as E:
+        print(f"API调用失败: {E}")
+        time.sleep(2)
+        return request_api_palm(messages)
 
 def request_api_chatgpt(prompt):
+    """
+    ChatGPT API调用函数
+    """
     messages = [
-                {"role": "system", "content": 'You are an AI assistant to answer question about biomedicine.'},
-                {"role": "user", "content": prompt}
+        {"role": "system", "content": 'You are an AI assistant to answer question about biomedicine.'},
+        {"role": "user", "content": prompt}
     ]
     try:
-        completion = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo", 
+        completion = client.chat.completions.create(
+            model="gpt-3.5-turbo",
             messages=messages,
         )
-        ret = completion["choices"][0]["message"]["content"].strip()
+        ret = completion.choices[0].message.content.strip()
         return ret
     except Exception as E:
         time.sleep(2)
-        print(E)
+        print(f"API调用失败: {E}")
         return request_api_chatgpt(prompt)

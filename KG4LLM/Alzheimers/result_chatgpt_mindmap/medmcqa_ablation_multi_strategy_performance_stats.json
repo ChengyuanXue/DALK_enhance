@@ -1,0 +1,30 @@
+{
+  "ablation_config": "ablation_multi_strategy",
+  "config_details": {
+    "USE_HIERARCHICAL_KG": true,
+    "USE_MULTI_STRATEGY_LINKING": false,
+    "USE_ADAPTIVE_UMLS": true,
+    "USE_UMLS_NORMALIZATION": true,
+    "USE_REASONING_RULES": true,
+    "USE_KG_GUIDED_REASONING": true,
+    "USE_OPTIMIZED_MULTIHOP": true,
+    "USE_ENHANCED_ANSWER_GEN": true
+  },
+  "dataset": "medmcqa",
+  "total_questions": 210,
+  "correct_answers": 168,
+  "accuracy": 0.8,
+  "avg_entity_confidence": 0.9221286909836816,
+  "question_type_distribution": {
+    "general": 91,
+    "causation": 20,
+    "diagnosis": 20,
+    "treatment": 24,
+    "exception": 81,
+    "symptom": 18,
+    "prevention": 2,
+    "definition": 3
+  },
+  "hierarchical_context_coverage": 1.0,
+  "multi_strategy_usage": 0.0
+}

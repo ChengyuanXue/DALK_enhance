@@ -1,0 +1,16 @@
+{
+  "dataset": "qa4mre",
+  "total_questions": 35,
+  "correct_answers": 30,
+  "accuracy": 0.8571428571428571,
+  "avg_entity_confidence": 0.9067879996515479,
+  "question_type_distribution": {
+    "general": 27,
+    "definition": 5,
+    "treatment": 2,
+    "diagnosis": 1,
+    "causation": 1
+  },
+  "hierarchical_context_coverage": 1.0,
+  "multi_strategy_usage": 1.0
+}

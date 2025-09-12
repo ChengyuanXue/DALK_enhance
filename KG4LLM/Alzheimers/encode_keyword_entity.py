@@ -2,7 +2,7 @@ import os
 import json
 import pandas as pd
 from tqdm import tqdm
-os.environ["CUDA_VISIBLE_DEVICES"] = "7"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 df = pd.read_csv('train_s2s.txt', sep='\t', header=None, names=['head', 'relation', 'tail'])
 entity = set()

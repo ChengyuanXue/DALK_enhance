@@ -1,0 +1,27 @@
+{
+  "ablation_config": "baseline",
+  "config_details": {
+    "USE_HIERARCHICAL_KG": false,
+    "USE_MULTI_STRATEGY_LINKING": false,
+    "USE_ADAPTIVE_UMLS": false,
+    "USE_UMLS_NORMALIZATION": false,
+    "USE_REASONING_RULES": false,
+    "USE_KG_GUIDED_REASONING": false,
+    "USE_OPTIMIZED_MULTIHOP": false,
+    "USE_ENHANCED_ANSWER_GEN": false
+  },
+  "dataset": "qa4mre",
+  "total_questions": 35,
+  "correct_answers": 27,
+  "accuracy": 0.7714285714285715,
+  "avg_entity_confidence": 0.9128335543054571,
+  "question_type_distribution": {
+    "general": 27,
+    "definition": 5,
+    "treatment": 2,
+    "diagnosis": 1,
+    "causation": 1
+  },
+  "hierarchical_context_coverage": 1.0,
+  "multi_strategy_usage": 0.0
+}
