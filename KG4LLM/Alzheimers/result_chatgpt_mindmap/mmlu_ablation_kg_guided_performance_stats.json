@@ -11,16 +11,12 @@
     "USE_ENHANCED_ANSWER_GEN": true
   },
   "dataset": "mmlu",
-  "total_questions": 48,
-  "correct_answers": 41,
-  "accuracy": 0.8541666666666666,
-  "avg_entity_confidence": 0.8161777156710338,
+  "total_questions": 1,
+  "correct_answers": 1,
+  "accuracy": 1.0,
+  "avg_entity_confidence": 0.7552421874470181,
   "question_type_distribution": {
-    "exception": 38,
-    "prevention": 5,
-    "general": 6,
-    "diagnosis": 1,
-    "causation": 2
+    "exception": 1
   },
   "hierarchical_context_coverage": 1.0,
   "multi_strategy_usage": 1.0

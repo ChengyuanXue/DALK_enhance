@@ -11,17 +11,13 @@
     "USE_ENHANCED_ANSWER_GEN": true
   },
   "dataset": "qa4mre",
-  "total_questions": 35,
-  "correct_answers": 30,
-  "accuracy": 0.8571428571428571,
-  "avg_entity_confidence": 0.9059100346965185,
+  "total_questions": 1,
+  "correct_answers": 1,
+  "accuracy": 1.0,
+  "avg_entity_confidence": 0.9623143879266886,
   "question_type_distribution": {
-    "causation": 9,
-    "prevention": 1,
-    "general": 22,
-    "treatment": 1,
-    "definition": 7,
-    "diagnosis": 2
+    "causation": 1,
+    "prevention": 1
   },
   "hierarchical_context_coverage": 1.0,
   "multi_strategy_usage": 1.0

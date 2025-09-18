@@ -11,19 +11,13 @@
     "USE_ENHANCED_ANSWER_GEN": true
   },
   "dataset": "medmcqa",
-  "total_questions": 210,
-  "correct_answers": 173,
-  "accuracy": 0.8238095238095238,
-  "avg_entity_confidence": 0.9205736884669992,
+  "total_questions": 1,
+  "correct_answers": 1,
+  "accuracy": 1.0,
+  "avg_entity_confidence": 0.9494579633076986,
   "question_type_distribution": {
-    "definition": 46,
-    "causation": 78,
-    "diagnosis": 36,
-    "symptom": 49,
-    "treatment": 25,
-    "exception": 83,
-    "prevention": 5,
-    "general": 5
+    "definition": 1,
+    "causation": 1
   },
   "hierarchical_context_coverage": 1.0,
   "multi_strategy_usage": 1.0
